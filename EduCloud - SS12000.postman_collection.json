@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "b15eb2db-1200-4c30-9a9e-5b1910cd8698",
+		"name": "EduCloud - SS12000",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get auth token - Prod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const { access_token, token_type } = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"auth\", token_type + \" \" + access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{clientIdProd}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{clientSecretProd}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://skolid.se/connect/token",
+							"protocol": "https",
+							"host": [
+								"skolid",
+								"se"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get auth token - Acceptance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const { access_token, token_type } = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"auth\", token_type + \" \" + access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{clientIdAcceptance}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{clientSecretAcceptance}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://skolid.se/connect/token",
+							"protocol": "https",
+							"host": [
+								"skolid",
+								"se"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Fetch parents",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/persons?relationship.entity.type=responsibleFor.enrolment",
+							"protocol": "https",
+							"host": [
+								"api",
+								"ist",
+								"com"
+							],
+							"path": [
+								"ss12000v2-api",
+								"source",
+								"SE00100",
+								"v2.0",
+								"persons"
+							],
+							"query": [
+								{
+									"key": "relationship.entity.type",
+									"value": "responsibleFor.enrolment"
+								},
+								{
+									"key": "limit",
+									"value": "50",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch students",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/persons",
+							"protocol": "https",
+							"host": [
+								"api",
+								"ist",
+								"com"
+							],
+							"path": [
+								"ss12000v2-api",
+								"source",
+								"SE00100",
+								"v2.0",
+								"persons"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "50",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch enrolled students on a specific unit",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/persons?relationship.entity.type=enrolment&relationship.organisation=3564439&limit=50 ",
+							"protocol": "https",
+							"host": [
+								"api",
+								"ist",
+								"com"
+							],
+							"path": [
+								"ss12000v2-api",
+								"source",
+								"SE00100",
+								"v2.0",
+								"persons"
+							],
+							"query": [
+								{
+									"key": "relationship.entity.type",
+									"value": "enrolment"
+								},
+								{
+									"key": "relationship.organisation",
+									"value": "3564439"
+								},
+								{
+									"key": "limit",
+									"value": "50 "
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Grades",
+			"item": [
+				{
+					"name": "Fetch all grades",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json, application/json, application/json, application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/grades/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"ist",
+								"com"
+							],
+							"path": [
+								"ss12000v2-api",
+								"source",
+								"SE00100",
+								"v2.0",
+								"grades",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fetch organisation",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{auth}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/persons",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ist",
+						"com"
+					],
+					"path": [
+						"ss12000v2-api",
+						"source",
+						"SE00100",
+						"v2.0",
+						"persons"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "50",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch groups",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{auth}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/groups",
+					"protocol": "https",
+					"host": [
+						"api",
+						"ist",
+						"com"
+					],
+					"path": [
+						"ss12000v2-api",
+						"source",
+						"SE00100",
+						"v2.0",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
