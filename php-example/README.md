@@ -53,4 +53,4 @@ Let's chunk up the URL a bit to make it easy to understand the different parts.
 `/persons` is the representation of the model that we are trying to get. For more information about our APIs, please read the [API Documentation](https://api.ist.com/ss12000v2-api/)
 
 #### Vue Frontend
-The sources for fetching persons is well documented. Check out the [Persons Component](php-example/resources/js/Components/Persons.vue).
+The sources for fetching persons is well documented. Check out the [Persons Component](./resources/js/Components/Persons.vue).
