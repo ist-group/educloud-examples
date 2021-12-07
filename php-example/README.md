@@ -4,7 +4,7 @@ The tools used in this example is Laravel for PHP backend and Vue for frontend.
 
 ### Authentication
 #### Backend
-In the [AuthenticateController.php](./php-example/app/Http/Controllers/AuthenticateController.php) you can see how we get an incoming POST request to the `/authenticate` route (defined in [the routes file](./php-example/routes/web.php)) where the user posts their clientId and clientSecret as credentials.
+In the [AuthenticateController.php](./app/Http/Controllers/AuthenticateController.php) you can see how we get an incoming POST request to the `/authenticate` route (defined in [the routes file](./routes/web.php)) where the user posts their clientId and clientSecret as credentials.
 We then use [Laravel HTTP Client](https://laravel.com/docs/8.x/http-client) to send an authentication request to [SkolID](https://skolid.se/).
 
 ```php
@@ -24,12 +24,12 @@ When we get the response back we check if it's OK and return the response we get
 
 #### Frontend
 The frontend for the PHP example is written in vue. We build a small form where you can enter your client- id and secret. We bind the input values with [v-model](https://vuejs.org/v2/guide/forms.html) and send it to our backend to relaying.
-The source for the authentication can be found [here](./php-example/resources/js/Components/Authentication.vue).
+The source for the authentication can be found [here](./resources/js/Components/Authentication.vue).
 
 ## Fetching Persons
 _This example works first after we have authenticated with SkolID. Make sure you understand how to get a token back before diving into this section._
 
-In the [PersonsController.php](./php-example/app/Http/Controllers/EduCloud/PersonsController.php) we send a GET request to the `/educloud-persons` endpoint (again, defined in [the routes file](./php-example/routes/web.php)) with `token` as a query param.
+In the [PersonsController.php](./app/Http/Controllers/EduCloud/PersonsController.php) we send a GET request to the `/educloud-persons` endpoint (again, defined in [the routes file](./routes/web.php)) with `token` as a query param.
 
 If the token isn't passed we'll throw an exception since it's our way to authenticate toward EduCloud.
 ```php
