@@ -17,4 +17,8 @@ Route::view('/','start');
 Route::view('/persons','persons');
 Route::get('/educloud-persons', [\App\Http\Controllers\EduCloud\PersonsController::class, 'index'])
     ->name('educloud-persons');
+
+Route::get('/persons-with-duties', \App\Http\Controllers\EduCloud\ExpandController::class)
+    ->name('persons-with-duties');
+
 Route::post('authenticate', [\App\Http\Controllers\AuthenticateController::class, 'authenticate']);

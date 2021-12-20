@@ -12,12 +12,19 @@
             >Fetch Persons with backend</button>
             <button
                 class="text-center p-4 rounded-md bg-blue-400"
+                @click="getPersonsWithDutiesFromBackend"
+            >Fetch Persons with Duties</button>
+            <button
+                class="text-center p-4 rounded-md bg-blue-400"
                 @click="clearPersons"
             >Clear Persons</button>
         </div>
         <div v-if="persons.length > 0">
             <div v-for="person in persons" :key="person.id">
                 <span>{{person.givenName}} {{person.familyName}}</span>
+                <span v-if="person._embedded.duties.length > 0">
+                    — {{person['_embedded'].duties[0].dutyRole}}
+                </span>
             </div>
         </div>
     </div>
@@ -29,7 +36,8 @@ export default {
     return {
         persons: [],
         eduCloudEndpoint: 'https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/persons',
-        endpointViaBackend: '/educloud-persons'
+        endpointViaBackend: '/educloud-persons',
+        personsWithDutiesEndpoint: '/persons-with-duties'
     }
   },
   methods: {
@@ -68,6 +76,18 @@ export default {
             this.persons = data.data
         })
       },
+
+    getPersonsWithDutiesFromBackend() {
+        let backendUrl = this.personsWithDutiesEndpoint
+        if (localStorage.getItem('token')) {
+            backendUrl += `?token=${localStorage.getItem('token')}`
+        }
+
+        axios.get(backendUrl).then(({data}) => {
+            this.persons = data.data
+        })
+      },
+
       /**
        * Just clear the Persons array.
        */
