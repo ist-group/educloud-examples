@@ -1,7 +1,5 @@
 package com.ist.educloud.integrationexample.dtos;
 
-import java.util.Date;
-
 public class GradeDTO {
     private String id;
     private MetaDTO meta;
@@ -17,25 +15,15 @@ public class GradeDTO {
     private String adaptedStudyPlan;
     private String remark;
     private boolean converted;
-    private enum correctionType {
-        CHANGE("Ändring"),
-        CORRECTION("Rättelse");
-
-        public final String label;
-        correctionType(String label) {
-            this.label = label;
-        }
-    };
-
-    private enum semester {
-        HT,
-        VT;
-    };
     private Integer year;
     private DisplayObjectDTO syllabus;
     private DiplomaProjectDTO diplomaProject;
 
-    public GradeDTO(String id, MetaDTO meta, DisplayObjectDTO student, DisplayObjectDTO organisation, DisplayObjectDTO registeredBy, DisplayObjectDTO gradingTeacher, DisplayObjectDTO group, String registeredDate, String gradeValue, boolean finalGrade, boolean trial, String adaptedStudyPlan, String remark, boolean converted, Integer year, DisplayObjectDTO syllabus, DiplomaProjectDTO diplomaProject) {
+    public GradeDTO(String id, MetaDTO meta, DisplayObjectDTO student, DisplayObjectDTO organisation,
+                    DisplayObjectDTO registeredBy, DisplayObjectDTO gradingTeacher, DisplayObjectDTO group,
+                    String registeredDate, String gradeValue, boolean finalGrade, boolean trial,
+                    String adaptedStudyPlan, String remark, boolean converted, Integer year,
+                    DisplayObjectDTO syllabus, DiplomaProjectDTO diplomaProject) {
         this.id = id;
         this.meta = meta;
         this.student = student;

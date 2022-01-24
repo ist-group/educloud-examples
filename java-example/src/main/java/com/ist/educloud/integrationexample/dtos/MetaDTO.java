@@ -1,14 +1,10 @@
 package com.ist.educloud.integrationexample.dtos;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MetaDTO {
     private String created;
     private String modified;
 
-    public MetaDTO(String created, String modified) throws ParseException {
+    public MetaDTO(String created, String modified) {
         this.created = created;
         this.modified = modified;
     }

@@ -6,7 +6,6 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ist.educloud.integrationexample.dtos.AuthenticationDTO;
@@ -25,7 +24,7 @@ public class Authenticator {
     private String grantType;
     private final String endpoint = "https://skolid.se/connect/token";
 
-    public AuthenticationDTO authenticate() throws JsonProcessingException {
+    public AuthenticationDTO authenticate() {
         MultivaluedHashMap entity = new MultivaluedHashMap();
         entity.add("client_id", clientId);
         entity.add("client_secret", clientSecret);
@@ -44,11 +43,15 @@ public class Authenticator {
 
         JsonObject jsonObject = new JsonParser().parse(jsonResponse).getAsJsonObject();
 
-        return new AuthenticationDTO(
-            jsonObject.get("access_token").getAsString(),
-            jsonObject.get("expires_in").getAsString(),
-            jsonObject.get("token_type").getAsString(),
-            jsonObject.get("scope").getAsString()
-        );
+        if (jsonObject.get("access_token") != null) {
+            return new AuthenticationDTO(
+                    jsonObject.get("access_token").getAsString(),
+                    jsonObject.get("expires_in").getAsString(),
+                    jsonObject.get("token_type").getAsString(),
+                    jsonObject.get("scope").getAsString()
+            );    
+        } else {
+            throw new RuntimeException("Error " + jsonObject);  
+        }
     }
 }
