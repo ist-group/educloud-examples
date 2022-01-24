@@ -1,7 +1,5 @@
 package com.ist.educloud.integrationexample.dtos;
 
-import java.util.UUID;
-
 public class DisplayObjectDTO {
     private String id;
     private String displayName;

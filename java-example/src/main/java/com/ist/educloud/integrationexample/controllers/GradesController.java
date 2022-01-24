@@ -1,6 +1,6 @@
 package com.ist.educloud.integrationexample.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.ist.educloud.integrationexample.dtos.GradeDTO;
 import com.ist.educloud.integrationexample.services.Authenticator;
@@ -19,7 +19,7 @@ public class GradesController {
         }
 
         @RequestMapping(name = "grades", path= "/grades", method = RequestMethod.GET)
-        public ArrayList<GradeDTO> index() {
+        public List<GradeDTO> index() {
             return gradeService.getAllGrades();
         }
     }
