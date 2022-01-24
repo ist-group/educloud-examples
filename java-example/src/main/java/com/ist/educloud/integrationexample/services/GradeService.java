@@ -69,13 +69,6 @@ public class GradeService {
     }
 
     public GradeDTO parseGradeJsonToGradeDTO(JsonObject grade) throws ParseException {
-        DisplayObjectDTO student = getDisplayObject(grade, "student");
-        DisplayObjectDTO organisation = getDisplayObject(grade, "organisation");
-        DisplayObjectDTO registeredBy = getDisplayObject(grade, "registeredBy");
-        DisplayObjectDTO gradingTeacher = getDisplayObject(grade, "gradingTeacher");
-        DisplayObjectDTO group = getDisplayObject(grade, "group");
-        DisplayObjectDTO syllabus = getDisplayObject(grade, "syllabus");
-        String remark = grade.has("remark") ? grade.get("remark").getAsString() : "";
 
         DiplomaProjectDTO diplomaProject = grade.has("diplomaProject")
         ? new DiplomaProjectDTO(
@@ -92,20 +85,20 @@ public class GradeService {
                         grade.getAsJsonObject("meta").get("created").getAsString(),
                         grade.getAsJsonObject("meta").get("modified").getAsString()
                 ),
-                student,
-                organisation,
-                registeredBy,
-                gradingTeacher,
-                group,
+                getDisplayObject(grade, "student"),
+                getDisplayObject(grade, "organisation"),
+                getDisplayObject(grade, "registeredBy"),
+                getDisplayObject(grade, "gradingTeacher"),
+                getDisplayObject(grade, "group"),
                 grade.get("registeredDate").getAsString(),
                 grade.get("gradeValue").getAsString(),
                 grade.get("finalGrade").getAsBoolean(),
                 grade.get("trial").getAsBoolean(),
                 grade.get("adaptedStudyPlan").getAsString(),
-                remark,
+                grade.has("remark") ? grade.get("remark").getAsString() : "",
                 grade.get("converted").getAsBoolean(),
                 grade.get("year").getAsInt(),
-                syllabus,
+                getDisplayObject(grade, "syllabus"),
                 diplomaProject
         );
 
