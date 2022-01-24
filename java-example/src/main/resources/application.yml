@@ -1,0 +1,4 @@
+educloud:
+  clientId: <your-client-id>
+  clientSecret: <your-client-secret>
+  grantType: client_credentials
