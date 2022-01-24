@@ -3,6 +3,7 @@ package com.ist.educloud.integrationexample.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -22,10 +23,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GradeService {
-    private static final String URL_GRADES = "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/grades";
-
-    @Value("${educloud.url}")
-    private String url;
+    private final String url = "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0";
 
     private AuthenticationDTO auth;
 
@@ -34,14 +32,7 @@ public class GradeService {
     }
 
     public List<GradeDTO> getAllGrades() {
-        ResteasyClient client = new ResteasyClientBuilder().build();
-        
-        client.target(UriBuilder.fromPath(URL_GRADES));
-        Response response = client.target(URL_GRADES)
-                .request()
-                .header("Authorization", auth.getToken_type() + " " + auth.getAccess_token())
-                .accept(MediaType.APPLICATION_JSON)
-                .get();
+        Response response = getRequest(url + "/grades").get();
 
         String jsonResponse = response.readEntity(String.class);
         response.close();
@@ -50,22 +41,47 @@ public class GradeService {
         JsonArray gradesJson = gradeResponse.get("data").getAsJsonArray();
         ArrayList<GradeDTO> grades = new ArrayList<>();
         gradesJson.forEach(grade -> grades.add(
-                    parseGradeJsonToGradeDTO(grade.getAsJsonObject()))
+                    toGradeDTO(grade.getAsJsonObject()))
         );
 
         return grades;
     }
 
-    public GradeDTO parseGradeJsonToGradeDTO(JsonObject grade) {
+    public GradeDTO getGradeById(String id) {
+        Response response = getRequest(url + "/grades/" + id).get();
 
+        String jsonResponse = response.readEntity(String.class);
+        response.close();
+        JsonObject gradeJson = new JsonParser().parse(jsonResponse).getAsJsonObject();
+
+        return toGradeDTO(gradeJson);
+    }
+
+    private Invocation.Builder getRequest(String path) {
+        ResteasyClient client = new ResteasyClientBuilder().build();
+
+        client.target(UriBuilder.fromPath(path));
+        return client.target(path)
+                .request()
+                .header("Authorization", auth.getToken_type() + " " + auth.getAccess_token())
+                .accept(MediaType.APPLICATION_JSON);
+    }
+
+    private GradeDTO toGradeDTO(JsonObject grade) {
         DiplomaProjectDTO diplomaProject = grade.has("diplomaProject")
-        ? new DiplomaProjectDTO(
-                grade.getAsJsonObject("diplomaProject").get("title").getAsString(),
-                grade.getAsJsonObject("diplomaProject").get("description").getAsString(),
-                grade.getAsJsonObject("diplomaProject").get("titleEnglish").getAsString(),
-                grade.getAsJsonObject("diplomaProject").get("descriptionEnglish").getAsString()
-        )
-        : null;
+                ? new DiplomaProjectDTO(
+                        grade.getAsJsonObject("diplomaProject").get("title").getAsString(),
+                        grade.getAsJsonObject("diplomaProject").get("description").getAsString(),
+                        grade.getAsJsonObject("diplomaProject").get("titleEnglish").getAsString(),
+                        grade.getAsJsonObject("diplomaProject").get("descriptionEnglish").getAsString()
+                )
+                : null;
+        GradeDTO.semester semester = grade.has("semester")
+                ? GradeDTO.semester.fromString(grade.get("semester").getAsString())
+                : null;
+        GradeDTO.correctionType correctionType = grade.has("correctionType")
+                ? GradeDTO.correctionType.fromString(grade.get("correctionType").getAsString())
+                : null;
 
         return new GradeDTO(
                 grade.get("id").getAsString(),
@@ -87,13 +103,15 @@ public class GradeService {
                 grade.get("converted").getAsBoolean(),
                 grade.get("year").getAsInt(),
                 getDisplayObject(grade, "syllabus"),
-                diplomaProject
+                diplomaProject,
+                semester,
+                correctionType
         );
     }
 
     private DisplayObjectDTO getDisplayObject(JsonObject grade, String key) {
         DisplayObjectDTO displayObject = new DisplayObjectDTO();
-   
+
         if (grade.has(key)) {
             JsonObject gradeAttribute = grade.getAsJsonObject(key);
             if (gradeAttribute.has("displayName")) {
@@ -105,8 +123,7 @@ public class GradeService {
 
             if (gradeAttribute.has("securityMarking")) {
                 if (gradeAttribute.get("securityMarking").getAsString().equals(DisplayObjectDTO.securityMarking.NONE.label)) {
-                    DisplayObjectDTO.securityMarking marking = DisplayObjectDTO.securityMarking.NONE;
-                    //TODO: Handle
+                    displayObject.setSecurityMarking(DisplayObjectDTO.securityMarking.NONE);
                 } else if (gradeAttribute.get("securityMarking").getAsString().equals(DisplayObjectDTO.securityMarking.SECRET.label)) {
                     displayObject.setSecurityMarking(DisplayObjectDTO.securityMarking.SECRET);
                 } else if (gradeAttribute.get("securityMarking").getAsString().equals(DisplayObjectDTO.securityMarking.PROTECTED)) {

@@ -15,15 +15,18 @@ public class GradeDTO {
     private String adaptedStudyPlan;
     private String remark;
     private boolean converted;
+
     private Integer year;
     private DisplayObjectDTO syllabus;
     private DiplomaProjectDTO diplomaProject;
+    private GradeDTO.semester semester;
+    private GradeDTO.correctionType correctionType;
 
     public GradeDTO(String id, MetaDTO meta, DisplayObjectDTO student, DisplayObjectDTO organisation,
                     DisplayObjectDTO registeredBy, DisplayObjectDTO gradingTeacher, DisplayObjectDTO group,
                     String registeredDate, String gradeValue, boolean finalGrade, boolean trial,
                     String adaptedStudyPlan, String remark, boolean converted, Integer year,
-                    DisplayObjectDTO syllabus, DiplomaProjectDTO diplomaProject) {
+                    DisplayObjectDTO syllabus, DiplomaProjectDTO diplomaProject, GradeDTO.semester semester, GradeDTO.correctionType correctionType) {
         this.id = id;
         this.meta = meta;
         this.student = student;
@@ -41,6 +44,75 @@ public class GradeDTO {
         this.year = year;
         this.syllabus = syllabus;
         this.diplomaProject = diplomaProject;
+        this.semester = semester;
+        this.correctionType = correctionType;
+    }
+
+    public String getSemester() {
+        return (semester instanceof GradeDTO.semester) ? semester.label : null;
+    }
+
+
+    public void setSemester(GradeDTO.semester semester) {
+        this.semester = semester;
+    }
+
+    public String getCorrectionType() {
+        return (correctionType instanceof GradeDTO.correctionType) ? correctionType.label : null;
+    }
+
+    public void setCorrectionType(GradeDTO.correctionType correctionType) {
+        this.correctionType = correctionType;
+    }
+
+    public enum correctionType {
+        CHANGE("Ändring"),
+        CORRECTION("Rättelse");
+
+        public final String label;
+        correctionType(String label) {
+            this.label = label;
+        }
+        public static correctionType fromString(String label) {
+            switch(label) {
+                case "Ändring": return CHANGE;
+                case "Rättelse": return CORRECTION;
+                default: throw new RuntimeException(label + " does not exist");
+            }
+        }
+    };
+
+    public enum semester {
+        HT("HT"),
+        VT("VT");
+        public final String label;
+
+        semester(String label) {
+            this.label = label;
+        }
+        public static semester fromString(String label) {
+            switch(label) {
+                case "VT": return VT;
+                case "HT": return HT;
+                default: throw new RuntimeException(label + " does not exist");
+            }
+        }
+    };
+
+    public DisplayObjectDTO getSyllabus() {
+        return syllabus;
+    }
+
+    public void setSyllabus(DisplayObjectDTO syllabus) {
+        this.syllabus = syllabus;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public MetaDTO getMeta() {
