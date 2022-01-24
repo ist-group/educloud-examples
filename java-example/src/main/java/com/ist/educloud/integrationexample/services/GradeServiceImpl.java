@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GradeService {
+public class GradeServiceImpl implements GradeService {
     private static final String URL_GRADES = "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/grades";
 
     @Value("${educloud.url}")
@@ -29,10 +29,11 @@ public class GradeService {
 
     private AuthenticationDTO auth;
 
-    public GradeService(Authenticator auth) {
+    public GradeServiceImpl(Authenticator auth) {
         this.auth = auth.authenticate();
     }
 
+    @Override
     public List<GradeDTO> getAllGrades() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         
