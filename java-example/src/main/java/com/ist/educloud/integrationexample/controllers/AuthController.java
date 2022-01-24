@@ -1,6 +1,5 @@
 package com.ist.educloud.integrationexample.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ist.educloud.integrationexample.dtos.AuthenticationDTO;
 import com.ist.educloud.integrationexample.services.Authenticator;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class AuthController {
     }
 
     @RequestMapping(name = "auth", path= "/auth", method = RequestMethod.GET)
-    public AuthenticationDTO auth() throws JsonProcessingException {
+    public AuthenticationDTO auth() {
         return authenticator.authenticate();
     }
 }

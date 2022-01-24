@@ -1,7 +1,5 @@
 # Read Me First
-The following was discovered as part of building this project:
-
-* The original package name 'com.ist.educloud.integration-example' is invalid and this project uses 'com.ist.educloud.integrationexample' instead.
+TODO
 
 # Getting Started
 
