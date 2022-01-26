@@ -5,8 +5,10 @@ export default {
         try {
             res.json(await grades.getAllGrades());
         } catch (err) {
-            console.error(`Error while getting programming languages`, err.message);
-            next(err);
+            res.json({
+                status: "error",
+                message: err.message
+            })
         }
     },
 
@@ -16,8 +18,10 @@ export default {
         try {
             res.json(await grades.getGrade(id));
         } catch (err) {
-            console.error(`Error while getting programming languages`, err.message);
-            next(err);
+            res.json({
+                status: "error",
+                message: err.message
+            })
         }
     }
 }
