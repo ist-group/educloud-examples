@@ -12,13 +12,15 @@ Here we currently have two methods. One for fetching all grades and one for fetc
 In the controller we import the grade [service object](./server/services/educloud/grades.js) containing the code fetching the grades from EduCloud. 
 ```javascript
 import grades from "../services/educloud/grades"
-    
+
 async index(req, res, next) {
     try {
         res.json(await grades.getAllGrades());
     } catch (err) {
-        console.error(`Error while getting programming languages`, err.message);
-        next(err);
+        res.json({
+            status: "error",
+            message: err.message
+        })
     }
 },
 
@@ -28,8 +30,10 @@ async show(req, res, next) {
     try {
         res.json(await grades.getGrade(id));
     } catch (err) {
-        console.error(`Error while getting programming languages`, err.message);
-        next(err);
+        res.json({
+            status: "error",
+            message: err.message
+        })
     }
 }
 ```
