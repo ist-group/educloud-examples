@@ -2168,13 +2168,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       persons: [],
       eduCloudEndpoint: 'https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/persons',
-      endpointViaBackend: '/educloud-persons'
+      endpointViaBackend: '/educloud-persons',
+      personsWithDutiesEndpoint: '/persons-with-duties'
     };
   },
   methods: {
@@ -2214,6 +2222,20 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(backendUrl).then(function (_ref2) {
         var data = _ref2.data;
         _this2.persons = data.data;
+      });
+    },
+    getPersonsWithDutiesFromBackend: function getPersonsWithDutiesFromBackend() {
+      var _this3 = this;
+
+      var backendUrl = this.personsWithDutiesEndpoint;
+
+      if (localStorage.getItem('token')) {
+        backendUrl += "?token=".concat(localStorage.getItem('token'));
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(backendUrl).then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.persons = data.data;
       });
     },
 
@@ -19998,6 +20020,15 @@ var render = function () {
         "button",
         {
           staticClass: "text-center p-4 rounded-md bg-blue-400",
+          on: { click: _vm.getPersonsWithDutiesFromBackend },
+        },
+        [_vm._v("Fetch Persons with Duties")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "text-center p-4 rounded-md bg-blue-400",
           on: { click: _vm.clearPersons },
         },
         [_vm._v("Clear Persons")]
@@ -20014,6 +20045,16 @@ var render = function () {
                   _vm._s(person.givenName) + " " + _vm._s(person.familyName)
                 ),
               ]),
+              _vm._v(" "),
+              person._embedded.duties.length > 0
+                ? _c("span", [
+                    _vm._v(
+                      "\n                — " +
+                        _vm._s(person["_embedded"].duties[0].dutyRole) +
+                        "\n            "
+                    ),
+                  ])
+                : _vm._e(),
             ])
           }),
           0
@@ -32366,7 +32407,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
 /******/ 					installedChunks[chunkId][0]();
 /******/ 				}
-/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 				installedChunks[chunkId] = 0;
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
