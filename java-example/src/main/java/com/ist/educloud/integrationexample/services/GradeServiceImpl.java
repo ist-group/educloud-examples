@@ -3,6 +3,8 @@ package com.ist.educloud.integrationexample.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -58,7 +60,7 @@ public class GradeServiceImpl implements GradeService {
     }
 
     private Invocation.Builder getRequest(String path) {
-        ResteasyClient client = new ResteasyClientBuilder().build();
+        Client client = ClientBuilder.newBuilder().build();
 
         client.target(UriBuilder.fromPath(path));
         return client.target(path)

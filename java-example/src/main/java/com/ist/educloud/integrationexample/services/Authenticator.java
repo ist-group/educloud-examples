@@ -1,5 +1,7 @@
 package com.ist.educloud.integrationexample.services;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -9,8 +11,6 @@ import javax.ws.rs.core.UriBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ist.educloud.integrationexample.dtos.AuthenticationDTO;
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class Authenticator {
         entity.add("client_secret", clientSecret);
         entity.add("grant_type", grantType);
 
-        ResteasyClient client = new ResteasyClientBuilder().build();
+        Client client = ClientBuilder.newBuilder().build();
         client.target(UriBuilder.fromPath(endpoint));
 
         Response response = client.target(endpoint)
