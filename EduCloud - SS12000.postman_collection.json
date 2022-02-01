@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b15eb2db-1200-4c30-9a9e-5b1910cd8698",
+		"_postman_id": "dc72c73c-ce97-4689-8205-9333d6112f6d",
 		"name": "EduCloud - SS12000",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -311,6 +311,99 @@
 								"v2.0",
 								"grades",
 								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Duties",
+			"item": [
+				{
+					"name": "Fetch teachers",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/duties?dutyRole=Lärare&expand=person",
+							"protocol": "https",
+							"host": [
+								"api",
+								"ist",
+								"com"
+							],
+							"path": [
+								"ss12000v2-api",
+								"source",
+								"SE00100",
+								"v2.0",
+								"duties"
+							],
+							"query": [
+								{
+									"key": "dutyRole",
+									"value": "Lärare"
+								},
+								{
+									"key": "expand",
+									"value": "person"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch duties",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{auth}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.ist.com/ss12000v2-api/source/SE00100/v2.0/duties",
+							"protocol": "https",
+							"host": [
+								"api",
+								"ist",
+								"com"
+							],
+							"path": [
+								"ss12000v2-api",
+								"source",
+								"SE00100",
+								"v2.0",
+								"duties"
 							]
 						}
 					},
