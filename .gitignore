@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/c#-example/EducloudExample/.vs/EducloudExample
+/c#-example/EducloudExample/bin/Debug/net5.0
+/c#-example/EducloudExample/obj
