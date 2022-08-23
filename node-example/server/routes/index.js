@@ -9,6 +9,9 @@ router.get('/', function(req, res, next) {
       "grades": {
         index: "/grades",
         show: "/grades/:id"
+      },
+      "emails": {
+        index: "/emails",
       }
     }
   })
